@@ -142,7 +142,7 @@ const ProductPage: NextPage<ProductPageProps> = ({
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const context: ApiContext = {
-    apiRootUrl: process.env.API_BASE_URL || 'http://localhost:5000',
+    apiRootUrl: process.env.API_BASE_URL || 'https://cpmmerence-app-80c83e112e4f.herokuapp.com/',
   }
   try {
     const products = await getAllProducts(context)
@@ -158,7 +158,7 @@ export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext) => {
   const context: ApiContext = {
-    apiRootUrl: process.env.API_BASE_URL || 'http://localhost:5000',
+    apiRootUrl: process.env.API_BASE_URL || 'https://cpmmerence-app-80c83e112e4f.herokuapp.com/',
   }
 
   if (!params) {

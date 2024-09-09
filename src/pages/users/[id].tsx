@@ -78,7 +78,7 @@ const UserPage: NextPage<UserPageProps> = ({
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const context: ApiContext = {
-    apiRootUrl: process.env.API_BASE_URL || 'http://localhost:5000',
+    apiRootUrl: process.env.API_BASE_URL || 'https://cpmmerence-app-80c83e112e4f.herokuapp.com/',
   }
   try {
     const users = await getAllUsers(context)
@@ -92,7 +92,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   const context: ApiContext = {
-    apiRootUrl: process.env.API_BASE_URL || 'http://localhost:5000',
+    apiRootUrl: process.env.API_BASE_URL || 'https://cpmmerence-app-80c83e112e4f.herokuapp.com/',
   }
 
   if (!params) {
