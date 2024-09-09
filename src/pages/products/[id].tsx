@@ -144,16 +144,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const context: ApiContext = {
     apiRootUrl: process.env.API_BASE_URL || 'http://localhost:5000',
   }
-  // 商品からパスを生成
-  const products = await getAllProducts(context)
-  const paths = products.map((p) => `/products/${p.id}`)
-
-  return { paths, fallback: true }
+  try {
+    const products = await getAllProducts(context)
+    const paths = products.map((p) => `/products/${p.id}`)
+    return { paths, fallback: true }
+  } catch (error) {
+    console.error('Failed to fetch products:', error)
+    return { paths: [], fallback: true }
+  }
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext) => {
+export const getStaticProps: GetStaticProps = async ({ params }: GetStaticPropsContext) => {
   const context: ApiContext = {
     apiRootUrl: process.env.API_BASE_URL || 'http://localhost:5000',
   }
@@ -162,18 +163,26 @@ export const getStaticProps: GetStaticProps = async ({
     throw new Error('params is undefined')
   }
 
-  // 商品を取得し、静的ページを作成
-  // 10秒でstaleな状態にし、静的ページを更新する
-  const productId = Number(params.id)
-  const product = await getProduct(context, { id: productId })
+  try {
+    const productId = Number(params.id)
+    const product = await getProduct(context, { id: productId })
 
-  return {
-    props: {
-      id: productId,
-      product,
-    },
-    revalidate: 10,
+    return {
+      props: {
+        id: productId,
+        product,
+      },
+      revalidate: 10,
+    }
+  } catch (error) {
+    console.error('Failed to fetch product:', error)
+    return {
+      notFound: true,
+    }
   }
+  
 }
 
+
 export default ProductPage
+
