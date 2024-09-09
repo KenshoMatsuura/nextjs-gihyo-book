@@ -154,7 +154,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }: GetStaticPropsContext) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}: GetStaticPropsContext) => {
   const context: ApiContext = {
     apiRootUrl: process.env.API_BASE_URL || 'http://localhost:5000',
   }
@@ -180,9 +182,6 @@ export const getStaticProps: GetStaticProps = async ({ params }: GetStaticPropsC
       notFound: true,
     }
   }
-  
 }
 
-
 export default ProductPage
-

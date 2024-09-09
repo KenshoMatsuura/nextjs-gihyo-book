@@ -80,10 +80,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const context: ApiContext = {
     apiRootUrl: process.env.API_BASE_URL || 'http://localhost:5000',
   }
-  const users = await getAllUsers(context)
-  const paths = users.map((u) => `/users/${u.id}`)
-
-  return { paths, fallback: true }
+  try {
+    const users = await getAllUsers(context)
+    const paths = users.map((u) => `/users/${u.id}`)
+    return { paths, fallback: true }
+  } catch (error) {
+    console.error('Error fetching users:', error)
+    return { paths: [], fallback: true }
+  }
 }
 
 export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
@@ -95,21 +99,26 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     throw new Error('params is undefined')
   }
 
-  // ユーザー情報と ユーザーの所持する商品を取得し、静的ページを作成
-  // 10秒でrevalidateな状態にし、静的ページを更新する
-  const userId = Number(params.id)
-  const [user, products] = await Promise.all([
-    getUser(context, { id: userId }),
-    getAllProducts(context, { userId }),
-  ])
+  try {
+    const userId = Number(params.id)
+    const [user, products] = await Promise.all([
+      getUser(context, { id: userId }),
+      getAllProducts(context, { userId }),
+    ])
 
-  return {
-    props: {
-      id: userId,
-      user,
-      products: products ?? [],
-    },
-    revalidate: 10,
+    return {
+      props: {
+        id: userId,
+        user,
+        products: products ?? [],
+      },
+      revalidate: 10,
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error)
+    return {
+      notFound: true, // データが取れなかった場合、404ページを返す
+    }
   }
 }
 
