@@ -10,6 +10,9 @@
     "format": "next lint --fix --dir src",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "engines": {
+      "node": "20.16.0"
+    },
     "test": "jest"
   },
   "dependencies": {
