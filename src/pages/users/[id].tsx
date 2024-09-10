@@ -47,7 +47,7 @@ const UserPage: NextPage<UserPageProps> = ({
             <Breadcrumb>
               <BreadcrumbItem>
                 <Link href="/">
-                  <a>トップ</a>
+                  トップ
                 </Link>
               </BreadcrumbItem>
               {user && <BreadcrumbItem>{user.username}</BreadcrumbItem>}

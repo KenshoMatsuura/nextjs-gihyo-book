@@ -24,7 +24,6 @@ const HomePage: NextPage<HomePageProps> = ({
         {products.map((p: Product, i: number) => (
           <Box paddingLeft={i === 0 ? 0 : 2} key={p.id}>
             <Link href={`/products/${p.id}`} passHref>
-              <a>
                 <ProductCard
                   variant="small"
                   title={p.title}
@@ -32,7 +31,6 @@ const HomePage: NextPage<HomePageProps> = ({
                   imageUrl={p.imageUrl}
                   blurDataUrl={p.blurDataUrl}
                 />
-              </a>
             </Link>
           </Box>
         ))}
