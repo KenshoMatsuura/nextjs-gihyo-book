@@ -26,9 +26,7 @@ const CartPage: NextPage = () => {
         <Box width="1240px">
           <Breadcrumb>
             <BreadcrumbItem>
-              <Link href="/">
-                トップ
-              </Link>
+              <Link href="/">トップ</Link>
             </BreadcrumbItem>
             <BreadcrumbItem>カート</BreadcrumbItem>
           </Breadcrumb>
