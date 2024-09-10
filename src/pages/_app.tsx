@@ -1,7 +1,14 @@
 import { AppProps } from 'next/app'
 import Head from 'next/head'
-import React from 'react'
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { SWRConfig } from 'swr'
+import GlobalSpinner from 'components/organisms/GlobalSpinner'
+import { AuthContextProvider } from 'contexts/AuthContext'
+import GlobalSpinnerContextProvider from 'contexts/GlobalSpinnerContext'
+import { ShoppingCartContextProvider } from 'contexts/ShoppingCartContext'
+import { theme } from 'themes'
+import type { ApiContext } from 'types'
+import { fetcher } from 'utils'
 
 // グローバルのスタイル
 const GlobalStyle = createGlobalStyle`
@@ -22,13 +29,17 @@ a {
   cursor: pointer;
   text-decoration: none;
   transition: .25s;
-  color: #0000;
+  color: ${theme.colors.black};
 }
 
 ol, ul {
   list-style: none;
 }
 `
+
+const context: ApiContext = {
+  apiRootUrl: process.env.NEXT_PUBLIC_API_BASE_PATH || '/api/proxy',
+}
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
@@ -54,6 +65,23 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <meta name="twitter:site" content="@truck2hand" /> */}
       </Head>
       <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <SWRConfig
+          value={{
+            shouldRetryOnError: false,
+            fetcher,
+          }}
+        >
+          <GlobalSpinnerContextProvider>
+            <ShoppingCartContextProvider>
+              <AuthContextProvider context={context}>
+                <GlobalSpinner />
+                <Component {...pageProps} />
+              </AuthContextProvider>
+            </ShoppingCartContextProvider>
+          </GlobalSpinnerContextProvider>
+        </SWRConfig>
+      </ThemeProvider>
     </>
   )
 }
