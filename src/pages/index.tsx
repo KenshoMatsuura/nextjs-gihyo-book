@@ -112,7 +112,7 @@ const HomePage: NextPage<HomePageProps> = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const context: ApiContext = {
-    apiRootUrl: process.env.API_BASE_URL || 'https://cpmmerence-app-80c83e112e4f.herokuapp.com/',
+    apiRootUrl: process.env.API_BASE_URL || 'local',
   }
 
   try {
